@@ -66,6 +66,10 @@ class BurgerBuilder extends Component {
   updatePurchasingHandler = () => {
     this.setState({ purchasing: true})
   }
+  cancelPurchasingHandler = () => {
+    this.setState({ purchasing: false})
+
+  }
 
   /* updatePurchasingHandler() {
     NÃO REFERENCIA A CLASSE, É DIFERENTE DA ARROW FUNCTION
@@ -81,7 +85,7 @@ class BurgerBuilder extends Component {
 
     return (
       <>
-        <Modal show={this.state.purchasing}>
+        <Modal show={this.state.purchasing} modalClosed={this.cancelPurchasingHandler}>
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
