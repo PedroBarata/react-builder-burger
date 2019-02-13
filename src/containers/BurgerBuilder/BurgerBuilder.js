@@ -19,10 +19,11 @@ class BurgerBuilder extends Component {
       cheese: 0
     },
     totalPrice: 4,
-    purchasable: false
+    purchasable: false,
+    purchasing: false,
   };
 
-  updatePurchasable = ingredients => {
+  updatePurchasableHandler = ingredients => {
     const sum = Object.keys(ingredients)
       .map(igKey => {
         return ingredients[igKey];
@@ -50,7 +51,7 @@ class BurgerBuilder extends Component {
     const oldPrice = this.state.totalPrice;
     const newPrice = oldPrice + INGREDIENT_PRICE[type];
     this.setState({ ingredients: newIngredients, totalPrice: newPrice });
-    this.updatePurchasable(newIngredients);
+    this.updatePurchasableHandler(newIngredients);
   };
 
   removeIngredientHandler = type => {
@@ -59,9 +60,18 @@ class BurgerBuilder extends Component {
     const oldPrice = this.state.totalPrice;
     const newPrice = oldPrice - INGREDIENT_PRICE[type];
     this.setState({ ingredients: newIngredients, totalPrice: newPrice });
-    this.updatePurchasable(newIngredients);
+    this.updatePurchasableHandler(newIngredients);
   };
 
+  updatePurchasingHandler = () => {
+    this.setState({ purchasing: true})
+  }
+
+  /* updatePurchasingHandler() {
+    NÃO REFERENCIA A CLASSE, É DIFERENTE DA ARROW FUNCTION
+    this.setState({ purchasing: true})
+  }
+ */
   render() {
     const disabledInfo = { ...this.state.ingredients };
 
@@ -71,7 +81,7 @@ class BurgerBuilder extends Component {
 
     return (
       <>
-        <Modal>
+        <Modal show={this.state.purchasing}>
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
@@ -80,6 +90,7 @@ class BurgerBuilder extends Component {
           removeIngredient={this.removeIngredientHandler}
           disabled={disabledInfo}
           purchasable={this.state.purchasable}
+          ordered={this.updatePurchasingHandler}
           currentPrice={this.state.totalPrice}
         />
       </>

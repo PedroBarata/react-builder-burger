@@ -17,6 +17,7 @@ const orderSummary = (props) => {
         <ul>
             {ingredientsSummary}
         </ul>
+        <p>Continue to Checkout?</p>
         </>
     );
 };
