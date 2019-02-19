@@ -89,6 +89,16 @@
     border-radius: 15px;
 }
 
+.Egg {
+  width: 90%;
+  height: 4.5%;
+  background: radial-gradient(farthest-side at 50% 0%, yellow 50%, #ccc 2%,  white 58%);
+  margin: 2% auto;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+
 .Cheese {
     width: 90%;
     height: 4.5%;
