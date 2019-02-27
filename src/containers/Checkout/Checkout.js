@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import CheckoutSummary from "../../components/Orders/CheckoutSummary/CheckoutSummary";
 import classes from "./Checkout.css";
+import { Route } from "react-router-dom";
+import ContactData from "../Checkout/ContactData/ContactData";
 class Checkout extends Component {
   state = {
     ingredients: {
@@ -13,14 +15,14 @@ class Checkout extends Component {
   };
 
   componentDidMount() {
-      const query = new URLSearchParams(this.props.location.search);
-      const ingredients = {};
-      for(let param of query.entries()) {
-        //   Nome da propriedade, sendo adicionado ao objeto "ingrediente", na qual é igual ao valor
-        ingredients[param[0]] = +param[1];
-        console.log(ingredients);
-      }
-      this.setState({ingredients: ingredients});
+    const query = new URLSearchParams(this.props.location.search);
+    const ingredients = {};
+    for (let param of query.entries()) {
+      //   Nome da propriedade, sendo adicionado ao objeto "ingrediente", na qual é igual ao valor
+      ingredients[param[0]] = +param[1];
+      console.log(ingredients);
+    }
+    this.setState({ ingredients: ingredients });
   }
 
   checkoutCancelled = () => {
@@ -28,17 +30,20 @@ class Checkout extends Component {
   };
 
   checkoutContinued = () => {
-    alert("Continued!");
+    this.props.history.push(this.props.match.url + "/contact-data");
   };
-
 
   render() {
     return (
       <div className={classes.Checkout}>
-        <CheckoutSummary 
-        ingredients={this.state.ingredients} 
-        continued={this.checkoutContinued}
-        cancelled={this.checkoutCancelled}
+        <CheckoutSummary
+          ingredients={this.state.ingredients}
+          continued={this.checkoutContinued}
+          cancelled={this.checkoutCancelled}
+        />
+        <Route
+          path={this.props.match.url + "/contact-data"}
+          component={ContactData}
         />
       </div>
     );
