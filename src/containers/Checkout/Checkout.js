@@ -12,6 +12,17 @@ class Checkout extends Component {
     }
   };
 
+  componentDidMount() {
+      const query = new URLSearchParams(this.props.location.search);
+      const ingredients = {};
+      for(let param of query.entries()) {
+        //   Nome da propriedade, sendo adicionado ao objeto "ingrediente", na qual é igual ao valor
+        ingredients[param[0]] = +param[1];
+        console.log(ingredients);
+      }
+      this.setState({ingredients: ingredients});
+  }
+
   checkoutCancelled = () => {
     this.props.history.goBack();
   };

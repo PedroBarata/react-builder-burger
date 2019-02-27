@@ -91,22 +91,28 @@ class BurgerBuilder extends Component {
   continuePurchasingHandler = () => {
     this.setState({ loading: true });
     // alert("You continued!");
-    const order = {
-      ingredients: this.state.ingredients,
-      price: parseFloat(this.state.totalPrice.toFixed(2)),
-      customer: {
-        name: "Pedro",
-        email: "teste@mail.com",
-        address: {
-          street: "testStreet",
-          number: "12345",
-          country: "Brasil"
-        }
-      },
-      deliveryMethod: "cheapest"
-    };
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: parseFloat(this.state.totalPrice.toFixed(2)),
+    //   customer: {
+    //     name: "Pedro",
+    //     email: "teste@mail.com",
+    //     address: {
+    //       street: "testStreet",
+    //       number: "12345",
+    //       country: "Brasil"
+    //     }
+    //   },
+    //   deliveryMethod: "cheapest"
+    // };
+    const queryParams = []
+    for(let i in this.state.ingredients) {
+      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+    }
 
-    this.props.history.push("/checkout");
+    const queryString = queryParams.join('&');
+
+    this.props.history.push({ pathname: "/checkout", search: '?' + queryString  });
 
     /* axios
       .post("/orders.json", order)
@@ -127,7 +133,11 @@ class BurgerBuilder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
     let orderSummary = null;
-    let burger = this.state.error? <p>Ingredients can't be fetched!</p> : <Spinner />;
+    let burger = this.state.error ? (
+      <p>Ingredients can't be fetched!</p>
+    ) : (
+      <Spinner />
+    );
     if (this.state.ingredients) {
       burger = (
         <>
