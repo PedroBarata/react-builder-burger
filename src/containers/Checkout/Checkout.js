@@ -5,24 +5,24 @@ import { Route } from "react-router-dom";
 import ContactData from "../Checkout/ContactData/ContactData";
 class Checkout extends Component {
   state = {
-    ingredients: {
-      salad: 1,
-      bacon: 1,
-      meat: 1,
-      cheese: 1,
-      egg: 1
-    }
+    ingredients: null,
+    totalPrice: 0
   };
 
-  componentDidMount() {
+  componentWillMount() {
     const query = new URLSearchParams(this.props.location.search);
     const ingredients = {};
+    let price = 0;
     for (let param of query.entries()) {
       //   Nome da propriedade, sendo adicionado ao objeto "ingrediente", na qual é igual ao valor
-      ingredients[param[0]] = +param[1];
+      if (param[0] === "price") {
+        price = param[1];
+      } else {
+        ingredients[param[0]] = +param[1];
+      }
       console.log(ingredients);
     }
-    this.setState({ ingredients: ingredients });
+    this.setState({ ingredients: ingredients, totalPrice: price });
   }
 
   checkoutCancelled = () => {
@@ -43,7 +43,13 @@ class Checkout extends Component {
         />
         <Route
           path={this.props.match.url + "/contact-data"}
-          component={ContactData}
+          render={props => (
+            <ContactData
+              ingredients={this.state.ingredients}
+              price={this.state.totalPrice}
+              {...props}
+            />
+          )}
         />
       </div>
     );
