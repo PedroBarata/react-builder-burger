@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CheckoutSummary from "../../components/Orders/CheckoutSummary/CheckoutSummary";
-import classes from './Checkout.css';
+import classes from "./Checkout.css";
 class Checkout extends Component {
   state = {
     ingredients: {
@@ -11,10 +11,24 @@ class Checkout extends Component {
       egg: 1
     }
   };
+
+  checkoutCancelled = () => {
+    this.props.history.goBack();
+  };
+
+  checkoutContinued = () => {
+    alert("Continued!");
+  };
+
+
   render() {
     return (
       <div className={classes.Checkout}>
-        <CheckoutSummary ingredients={this.state.ingredients} />
+        <CheckoutSummary 
+        ingredients={this.state.ingredients} 
+        continued={this.checkoutContinued}
+        cancelled={this.checkoutCancelled}
+        />
       </div>
     );
   }

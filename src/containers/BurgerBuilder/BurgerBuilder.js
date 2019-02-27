@@ -106,7 +106,9 @@ class BurgerBuilder extends Component {
       deliveryMethod: "cheapest"
     };
 
-    axios
+    this.props.history.push("/checkout");
+
+    /* axios
       .post("/orders.json", order)
       .then(response => {
         console.log(response);
@@ -115,7 +117,7 @@ class BurgerBuilder extends Component {
       .catch(error => {
         console.log(error);
         this.setState({ loading: false, purchasing: false });
-      });
+      }); */
   };
 
   render() {
