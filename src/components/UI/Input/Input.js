@@ -25,7 +25,7 @@ const input = props => {
     default:
       inputElement = (
         <input
-          lassName={classes.InputElement}
+          className={classes.InputElement}
           {...props.elementConfig}
           value={props.value}
         />

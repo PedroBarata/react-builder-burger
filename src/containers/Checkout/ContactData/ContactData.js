@@ -6,53 +6,55 @@ import classes from "./ContactData.css";
 import axios from "../../../axios-orders";
 class ContactData extends Component {
   state = {
-    name: {
-      elementType: "input",
-      elementConfig: {
-        type: "text",
-        placeholder: "Your Name"
+    orderForm: {
+      name: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Your Name"
+        },
+        value: ""
       },
-      value: ""
-    },
-    email: {
-      elementType: "input",
-      elementConfig: {
-        type: "text",
-        placeholder: "Your E-Mail"
+      email: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Your E-Mail"
+        },
+        value: ""
       },
-      value: ""
-    },
-    street: {
-      elementType: "input",
-      elementConfig: {
-        type: "text",
-        placeholder: "Street"
+      street: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Street"
+        },
+        value: ""
       },
-      value: ""
-    },
-    zipCode: {
-      elementType: "input",
-      elementConfig: {
-        type: "text",
-        placeholder: "ZIP Code"
+      zipCode: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "ZIP Code"
+        },
+        value: ""
       },
-      value: ""
-    },
-    country: {
-      elementType: "input",
-      elementConfig: {
-        type: "text",
-        placeholder: "Your Country"
+      country: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Your Country"
+        },
+        value: ""
       },
-      value: ""
-    },
-    deliveryMethod: {
-      elementType: "select",
-      elementConfig: {
-        options: [
-          { value: "fastest", displayValue: "Fastest" },
-          { value: "cheapest", displayValue: "Cheapest" }
-        ]
+      deliveryMethod: {
+        elementType: "select",
+        elementConfig: {
+          options: [
+            { value: "fastest", displayValue: "Fastest" },
+            { value: "cheapest", displayValue: "Cheapest" }
+          ]
+        }
       }
     },
     loading: false
@@ -81,31 +83,24 @@ class ContactData extends Component {
   };
 
   render() {
+    let formElementsArray = [];
+    for (let key in this.state.orderForm) {
+      formElementsArray.push({
+        id: key,
+        config: this.state.orderForm[key]
+      });
+    }
+
     let form = (
       <form>
-        <Input
-          elementType="input"
-          elementConfig=""
-          value=""
-        />
-        <Input
-          inputtype="input"
-          type="email"
-          name="email"
-          placeholder="Your Email"
-        />
-        <Input
-          inputtype="input"
-          type="text"
-          name="street"
-          placeholder="Street"
-        />
-        <Input
-          inputtype="input"
-          type="text"
-          name="postal"
-          placeholder="Postal Code"
-        />
+        {formElementsArray.map(formElement => (
+          <Input
+            key={formElement.id}
+            elementType={formElement.config.elementType}
+            elementConfig={formElement.config.elementConfig}
+            value={formElement.config.value}
+          />
+        ))}
       </form>
     );
 
