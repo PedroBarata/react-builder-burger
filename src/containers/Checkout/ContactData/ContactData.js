@@ -18,6 +18,7 @@ class ContactData extends Component {
           required: true
         },
         valid: false,
+        validMessage: [],
         touched: false
       },
       email: {
@@ -31,6 +32,7 @@ class ContactData extends Component {
           required: true
         },
         valid: false,
+        validMessage: [],
         touched: false
       },
       street: {
@@ -44,6 +46,7 @@ class ContactData extends Component {
           required: true
         },
         valid: false,
+        validMessage: [],
         touched: false
       },
       zipCode: {
@@ -72,6 +75,7 @@ class ContactData extends Component {
           required: true
         },
         valid: false,
+        validMessage: [],
         touched: false
       },
       deliveryMethod: {
@@ -84,6 +88,7 @@ class ContactData extends Component {
         },
         value: "fastest",
         validation: {},
+        validMessage: [],
         valid: true
       }
     },
@@ -93,24 +98,27 @@ class ContactData extends Component {
 
   checkValidity = (value, rules) => {
     let isValid = true;
-
+    let invalidMessage = [];
     if (!rules) {
       return true;
     }
 
     if (rules.required) {
       isValid = value.trim() !== "" && isValid;
+      invalidMessage.push("Is required");
     }
 
     if (rules.minLength) {
       isValid = value.length >= rules.minLength && isValid;
+      invalidMessage.push("minimum length is " + rules.minLength);
     }
 
     if (rules.maxLength) {
       isValid = value.length <= rules.maxLength && isValid;
+      invalidMessage.push("maximum length is " + rules.minLength);
     }
 
-    return isValid;
+    return { isValid: isValid, invalidMessage: invalidMessage.join(", ") };
   };
 
   orderHandler = event => {
@@ -145,10 +153,15 @@ class ContactData extends Component {
     const updatedOrderForm = { ...this.state.orderForm };
     const updatedFormElement = { ...updatedOrderForm[inputIdentifier] };
     updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidity(
+    const validity = this.checkValidity(
       updatedFormElement.value,
       updatedFormElement.validation
     );
+    updatedFormElement.valid = validity.isValid;
+    updatedFormElement.validMessage = validity.invalidMessage;
+    if (updatedFormElement.valid) {
+      updatedFormElement.validMessage = null;
+    }
     updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement;
     let formValid = true;
@@ -178,6 +191,7 @@ class ContactData extends Component {
             invalid={!formElement.config.valid}
             shouldValidate={formElement.config.validation}
             touched={formElement.config.touched}
+            message={formElement.config.validMessage}
             onChange={event => this.onChangeHandler(event, formElement.id)}
           />
         ))}

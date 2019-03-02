@@ -31,3 +31,11 @@
     border: 1px solid red;
     background-color: salmon;
 }
+
+.Message {
+    color: red;
+    text-align: left;
+    padding: 0;
+    margin: 2px 0;
+    font-size: 14px;
+}
