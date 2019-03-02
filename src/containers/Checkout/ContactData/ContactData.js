@@ -82,6 +82,7 @@ class ContactData extends Component {
             { value: "cheapest", displayValue: "Cheapest" }
           ]
         },
+        validation: {},
         valid: true
       }
     },
@@ -91,17 +92,21 @@ class ContactData extends Component {
 
   checkValidity = (value, rules) => {
     let isValid = true;
+
+    if (!rules) {
+      return true;
+    }
+
     if (rules.required) {
       isValid = value.trim() !== "" && isValid;
     }
 
-    if(rules.minLength) {
+    if (rules.minLength) {
       isValid = value.length >= rules.minLength && isValid;
     }
 
-    if(rules.maxLength) {
+    if (rules.maxLength) {
       isValid = value.length <= rules.maxLength && isValid;
-      
     }
 
     return isValid;
@@ -139,11 +144,14 @@ class ContactData extends Component {
     const updatedOrderForm = { ...this.state.orderForm };
     const updatedFormElement = { ...updatedOrderForm[inputIdentifier] };
     updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+    updatedFormElement.valid = this.checkValidity(
+      updatedFormElement.value,
+      updatedFormElement.validation
+    );
     updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement;
     let formValid = true;
-    for(let formElement in updatedOrderForm) {
+    for (let formElement in updatedOrderForm) {
       formValid = updatedOrderForm[formElement].valid && formValid;
     }
     this.setState({ orderForm: updatedOrderForm, formIsValid: formValid });
@@ -172,7 +180,9 @@ class ContactData extends Component {
             onChange={event => this.onChangeHandler(event, formElement.id)}
           />
         ))}
-        <Button disabled={!this.state.formIsValid} btnType="Success">ORDER</Button>
+        <Button disabled={!this.state.formIsValid} btnType="Success">
+          ORDER
+        </Button>
       </form>
     );
 
