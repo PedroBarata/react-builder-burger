@@ -1,6 +1,7 @@
 export { 
     addIngriedient, 
-    removeIngredient 
+    removeIngredient,
+    initIngredients 
 } from "./burgerBuilder";
 
 export {} from "./order";
