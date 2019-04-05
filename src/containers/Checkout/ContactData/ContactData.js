@@ -95,7 +95,6 @@ class ContactData extends Component {
         valid: true
       }
     },
-    loading: false,
     formIsValid: false
   };
 
@@ -125,7 +124,6 @@ class ContactData extends Component {
   };
 
   orderHandler = event => {
-    this.setState({ loading: true });
     event.preventDefault();
     const orderData = {};
     for (let formDataIdenfier in this.state.orderForm) {
@@ -195,7 +193,7 @@ class ContactData extends Component {
       </form>
     );
 
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
     return (
@@ -209,12 +207,13 @@ class ContactData extends Component {
 const mapStateToProps = state => {
   return {
     ings: state.ingredients,
-    price: state.totalPrice
+    price: state.totalPrice,
+    loading: state.loading
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger: (order) => dispatch(orderActions.purchaseBurgerStart(order))
+    onOrderBurger: (order) => dispatch(orderActions.purchaseBurger(order))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData,axios));
