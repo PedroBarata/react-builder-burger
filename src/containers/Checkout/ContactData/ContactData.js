@@ -6,7 +6,7 @@ import classes from "./ContactData.css";
 import axios from "../../../axios-orders";
 import { connect } from "react-redux";
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
-import * as orderActions from '../../../store/actions/index';
+import * as actions from '../../../store/actions/index';
 class ContactData extends Component {
   state = {
     orderForm: {
@@ -213,7 +213,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger: (order) => dispatch(orderActions.purchaseBurger(order))
+    onOrderBurger: (order) => dispatch(actions.purchaseBurger(order))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData,axios));

@@ -7,7 +7,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import axios from "../../axios-orders";
 import { connect } from "react-redux";
-import * as burgerBuilderActions from "../../store/actions/index";
+import * as actions from "../../store/actions/index";
 
 
 class BurgerBuilder extends Component {
@@ -45,7 +45,7 @@ class BurgerBuilder extends Component {
   };
 
   continuePurchasingHandler = () => {
-    this.setState({ loading: true });
+    this.props.onPurchaseInit();
     this.props.history.push("/checkout");
   };
 
@@ -86,10 +86,6 @@ class BurgerBuilder extends Component {
       );
     }
 
-    if (this.state.loading) {
-      orderSummary = <Spinner />;
-    }
-
     return (
       <>
         <Modal
@@ -114,9 +110,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddIngredient: (ingName) => dispatch(burgerBuilderActions.addIngriedient(ingName)),
-    onRemoveIngredient: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
-    onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
+    onAddIngredient: (ingName) => dispatch(actions.addIngriedient(ingName)),
+    onRemoveIngredient: (ingName) => dispatch(actions.removeIngredient(ingName)),
+    onInitIngredients: () => dispatch(actions.initIngredients()),
+    onPurchaseInit: () => dispatch(actions.purchaseBurgerInit())
   }
 };
 
