@@ -26,7 +26,7 @@ export const purchaseBurger = orderData => {
   return function(dispatch) {
     dispatch(purchaseBurgerStart());
     axios
-      .post("/orders.json", order)
+      .post("/orders.json", orderData)
       .then(response => {
         console.log(response.data);
         dispatch(purchaseBurgerSuccess(response.data, orderData));
