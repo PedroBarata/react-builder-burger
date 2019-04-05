@@ -5,7 +5,7 @@ const initialState = {
   loading: false
 };
 
-export const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PURCHASE_BURGER_START:
       return {
@@ -31,3 +31,5 @@ export const reducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default reducer;

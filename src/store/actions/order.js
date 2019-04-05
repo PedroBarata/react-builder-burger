@@ -29,7 +29,8 @@ export const purchaseBurger = orderData => {
       .post("/orders.json", orderData)
       .then(response => {
         console.log(response.data);
-        dispatch(purchaseBurgerSuccess(response.data, orderData));
+        /* response.data.name é o id que vem do firebase! */
+        dispatch(purchaseBurgerSuccess(response.data.name, orderData));
       })
       .catch(error => {
         dispatch(purchaseBurgerFail(error));
