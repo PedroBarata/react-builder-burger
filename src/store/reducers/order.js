@@ -50,6 +50,22 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: false
       }
+    case actionTypes.DELETE_ORDER_START:
+      return {
+        ...state,
+        loading: true
+      }
+    case actionTypes.DELETE_ORDER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        orders: state.orders.filter(order => order.id !== action.orderId)
+      }
+    case actionTypes.DELETE_ORDER_FAIL:
+      return {
+        ...state,
+        loading: false
+      }
     default:
       return state;
   }

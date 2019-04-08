@@ -23,7 +23,7 @@ export const purchaseBurgerStart = () => {
 };
 
 export const purchaseBurger = orderData => {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(purchaseBurgerStart());
     axios
       .post("/orders.json", orderData)
@@ -39,9 +39,9 @@ export const purchaseBurger = orderData => {
 };
 
 export const purchaseBurgerInit = () => {
-    return {
-        type: actionTypes.PURCHASE_BURGER_INIT
-    }
+  return {
+    type: actionTypes.PURCHASE_BURGER_INIT
+  }
 }
 
 export const fetchOrdersStart = () => {
@@ -59,7 +59,7 @@ export const fetchOrdersFail = (error) => {
 
 export const fetchOrdersSuccess = orders => {
   return {
-    type:actionTypes.FETCH_ORDERS_SUCCESS,
+    type: actionTypes.FETCH_ORDERS_SUCCESS,
     orders: orders
   }
 }
@@ -68,17 +68,53 @@ export const fetchOrders = () => {
   return dispatch => {
     dispatch(fetchOrdersStart());
     axios
-    .get("/orders.json")
-    .then(res => {
-      const fetchedOrders = [];
-      for (let key in res.data) {
-        fetchedOrders.push({ ...res.data[key], id: key });
-      }
-      dispatch(fetchOrdersSuccess(fetchedOrders));
-    })
-    .catch(err => {
-      dispatch(fetchOrdersFail(err));      
-      console.log(err);
-    });
+      .get("/orders.json")
+      .then(res => {
+        console.log(res.data);
+        const fetchedOrders = [];
+        for (let key in res.data) {
+          fetchedOrders.push({ ...res.data[key], id: key });
+        }
+        dispatch(fetchOrdersSuccess(fetchedOrders));
+      })
+      .catch(err => {
+        dispatch(fetchOrdersFail(err));
+        console.log(err);
+      });
   }
 }
+
+export const deleteOrderSuccess = orderId => {
+  return {
+    type: actionTypes.DELETE_ORDER_SUCCESS,
+    orderId: orderId
+  }
+}
+
+export const deleteOrderFail = error => {
+  return {
+    type: actionTypes.DELETE_ORDER_FAIL,
+    error: error
+  }
+}
+
+export const deleteOrderStart = () => {
+  return {
+    type: actionTypes.DELETE_ORDER_START
+  }
+}
+
+export const deleteOrder = orderId => {
+  return dispatch => {
+    dispatch(deleteOrderStart());
+    axios.delete(`/orders/${orderId}.json/`)
+      .then(_ => {
+        dispatch(deleteOrderSuccess(orderId));
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(deleteOrderFail(error));
+      })
+  }
+}
+
