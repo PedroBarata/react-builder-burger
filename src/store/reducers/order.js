@@ -7,41 +7,69 @@ const initialState = {
   purchased: false,
 };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actionTypes.PURCHASE_BURGER_INIT:
-      return updatedObject(state, { purchased: false });
-    case actionTypes.PURCHASE_BURGER_START:
-      return updatedObject(state, { loading: true });
-    case actionTypes.PURCHASE_BURGER_SUCCESS:
-      const newOrder = updatedObject(action.orderData, { id: action.orderId });
+const purchaseBurgerInit = (state, action) => {
+  return updatedObject(state, { purchased: false });
+};
+
+const purchaseBurgerStart = (state, action) => {
+  return updatedObject(state, { loading: true });
+}
+
+const purchaseBurgerSuccess = (state, action) => {
+  const newOrder = updatedObject(action.orderData, { id: action.orderId });
       return updatedObject(state, {
         loading: false,
         purchased: true,
         orders: state.orders.concat(newOrder),
       });
-    case actionTypes.PURCHASE_BURGER_FAIL:
-      return updatedObject(state, { loading: false });
-    case actionTypes.FETCH_ORDERS_START:
-      return updatedObject(state, { loading: true });
-    case actionTypes.FETCH_ORDERS_SUCCESS:
-      return updatedObject(state, {
-        orders: action.orders,
-        loading: false,
-      });
-    case actionTypes.FETCH_ORDERS_FAIL:
-      return updatedObject(state, { loading: false });
-    case actionTypes.DELETE_ORDER_START:
-      return updatedObject(state, { loading: true });
-    case actionTypes.DELETE_ORDER_SUCCESS:
-      return updatedObject(state, {
-        loading: false,
-        orders: state.orders.filter((order) => order.id !== action.orderId),
-      });
-    case actionTypes.DELETE_ORDER_FAIL:
-      return updatedObject(state, { loading: false });
-    default:
-      return state;
+}
+
+const purchaseBurgerFail = (state, action) => {
+  return updatedObject(state, { loading: false });
+}
+
+const fetchOrdersStart = (state, action) => {
+  return updatedObject(state, { loading: true });
+}
+
+const fetchOrdersSuccess = (state, action) => {
+  return updatedObject(state, {
+    orders: action.orders,
+    loading: false,
+  });
+}
+
+const fetchOrdersFail = (state, action) => { 
+  return updatedObject(state, { loading: false });
+}
+
+const deleteOrderStart = (state, action) => {
+  return updatedObject(state, { loading: true });
+}
+
+const deleteOrderSuccess = (state, action) => { 
+  return updatedObject(state, {
+    loading: false,
+    orders: state.orders.filter((order) => order.id !== action.orderId),
+  });
+}
+
+const deleteOrderFail = (state, action) => {
+  return updatedObject(state, { loading: false });
+}
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actionTypes.PURCHASE_BURGER_INIT: return purchaseBurgerInit(state, action);
+    case actionTypes.PURCHASE_BURGER_START: return purchaseBurgerStart(state, action);
+    case actionTypes.PURCHASE_BURGER_SUCCESS: return purchaseBurgerSuccess(state, action);
+    case actionTypes.PURCHASE_BURGER_FAIL: return purchaseBurgerFail(state, action);
+    case actionTypes.FETCH_ORDERS_START: return fetchOrdersStart(state, action);
+    case actionTypes.FETCH_ORDERS_SUCCESS: return fetchOrdersSuccess(state, action);
+    case actionTypes.FETCH_ORDERS_FAIL: return fetchOrdersFail(state, action);
+    case actionTypes.DELETE_ORDER_START: return deleteOrderStart(state, action);
+    case actionTypes.DELETE_ORDER_SUCCESS: return deleteOrderSuccess(state, action);
+    case actionTypes.DELETE_ORDER_FAIL: return deleteOrderFail(state, action);
+    default: return state;
   }
 };
 
