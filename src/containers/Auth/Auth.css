@@ -1,0 +1,13 @@
+.Auth {
+    width: 80%;
+    margin: 5px auto;
+    box-shadow: 2px 3px 1px #ccc;
+    border: 2px solid #eee;
+    text-align: center;
+}
+
+@media(min-width: 600px) {
+    .Auth {
+        width: 500px;
+    }
+}
