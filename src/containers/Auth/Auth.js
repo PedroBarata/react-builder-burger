@@ -69,7 +69,7 @@ class Auth extends Component {
     }
 
     if (rules.isEmail) {
-      const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi;
       isValid = pattern.test(value) && isValid;
       if (!isValid) {
         invalidMessage.push('invalid e-mail ');
@@ -99,9 +99,12 @@ class Auth extends Component {
   };
 
   submitHandler = (event) => {
-      event.preventDefault();
-      this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
-  }
+    event.preventDefault();
+    this.props.onAuth(
+      this.state.controls.email.value,
+      this.state.controls.password.value
+    );
+  };
 
   render() {
     let formElementsArray = [];
@@ -144,4 +147,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(
+  null,
+  mapDispatchToProps
+)(Auth);
