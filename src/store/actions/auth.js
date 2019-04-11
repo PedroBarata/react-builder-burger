@@ -18,7 +18,21 @@ export const authSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
     tokenId: token,
-    userId: userId
+    userId: userId,
+  };
+};
+
+export const authLogout = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
+export const authLogoutTimeout = (expirationToken) => {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch(authLogout());
+    }, expirationToken * 1000);
   };
 };
 
@@ -41,6 +55,7 @@ export const auth = (email, password, isSignup) => {
       .then((response) => {
         console.log(response);
         dispatch(authSuccess(response.data.idToken, response.data.localId));
+        dispatch(authLogoutTimeout(response.data.expiresIn));
       })
       .catch((err) => {
         console.log(err);
