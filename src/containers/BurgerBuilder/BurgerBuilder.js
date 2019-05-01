@@ -13,12 +13,12 @@ import * as actions from "../../store/actions/index";
 class BurgerBuilder extends Component {
   state = {
     purchasable: false,
-    purchasing: false   
+    purchasing: false
   };
 
-   componentDidMount() {
-     this.props.onInitIngredients();
-  } 
+  componentDidMount() {
+    this.props.onInitIngredients();
+  }
 
   updatePurchasableHandler = ingredients => {
     const sum = Object.keys(ingredients)
@@ -32,7 +32,11 @@ class BurgerBuilder extends Component {
   };
 
   updatePurchasingHandler = () => {
-    this.setState({ purchasing: true });
+    if (this.props.isAuthenticated) {
+      this.setState({ purchasing: true });
+    } else {
+      this.props.history.push('/auth');
+    }
   };
   /* updatePurchasingHandler() {
     NÃO REFERENCIA A CLASSE, É DIFERENTE DA ARROW FUNCTION
@@ -71,6 +75,7 @@ class BurgerBuilder extends Component {
             disabled={disabledInfo}
             purchasable={this.updatePurchasableHandler(this.props.ings)}
             ordered={this.updatePurchasingHandler}
+            isAuth={this.props.isAuthenticated}
             currentPrice={this.props.price}
           />
         </>
@@ -104,7 +109,8 @@ const mapStateToProps = state => {
   return {
     ings: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
-    error: state.burgerBuilder.error
+    error: state.burgerBuilder.error,
+    isAuthenticated: state.auth.token !== null
   }
 };
 
