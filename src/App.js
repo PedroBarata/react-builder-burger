@@ -5,7 +5,7 @@ import Checkout from "./containers/Checkout/Checkout";
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Redirect, Switch, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
 class App extends Component {
@@ -38,4 +38,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default withRouter(connect(null, mapDispatchToProps)(App));
