@@ -7,7 +7,7 @@ import axios from "../../../axios-orders";
 import { connect } from "react-redux";
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actions from '../../../store/actions/index';
-import { updatedObject } from '../../../shared/utility';
+import { updatedObject, checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
   state = {
@@ -34,7 +34,8 @@ class ContactData extends Component {
         },
         value: "",
         validation: {
-          required: true
+          required: true,
+          isEmail: true
         },
         valid: false,
         validMessage: [],
@@ -100,31 +101,6 @@ class ContactData extends Component {
     formIsValid: false
   };
 
-  checkValidity = (value, rules) => {
-    let isValid = true;
-    let invalidMessage = [];
-    if (!rules) {
-      return true;
-    }
-
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-      invalidMessage.push("Is required");
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-      invalidMessage.push("minimum length is " + rules.minLength);
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-      invalidMessage.push("maximum length is " + rules.minLength);
-    }
-
-    return { isValid: isValid, invalidMessage: invalidMessage.join(", ") };
-  };
-
   orderHandler = event => {
     event.preventDefault();
     const orderData = {};
@@ -145,7 +121,7 @@ class ContactData extends Component {
   };
 
   onChangeHandler = (event, inputIdentifier) => {
-    const validity = this.checkValidity(
+    const validity = checkValidity(
       event.target.value,
       this.state.orderForm[inputIdentifier].validation
     );
