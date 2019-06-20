@@ -28,7 +28,6 @@ export const purchaseBurger = (orderData,token) => {
     axios
       .post("/orders.json?auth=" + token, orderData)
       .then(response => {
-        console.log(response.data);
         /* response.data.name é o id que vem do firebase! */
         dispatch(purchaseBurgerSuccess(response.data.name, orderData));
       })
@@ -67,13 +66,11 @@ export const fetchOrdersSuccess = orders => {
 export const fetchOrders = (token, userId) => {
   return dispatch => {
     const queryParams = '?auth=' + token + '&orderBy="userId"' + '&equalTo="' + userId + '"';
-    console.log(queryParams);
     
     dispatch(fetchOrdersStart());
     axios
       .get('/orders.json' + queryParams)
       .then(res => {
-        console.log(res.data);
         const fetchedOrders = [];
         for (let key in res.data) {
           fetchedOrders.push({ ...res.data[key], id: key });
@@ -82,7 +79,6 @@ export const fetchOrders = (token, userId) => {
       })
       .catch(err => {
         dispatch(fetchOrdersFail(err));
-        console.log(err);
       });
   }
 }
@@ -115,7 +111,6 @@ export const deleteOrder = orderId => {
         dispatch(deleteOrderSuccess(orderId));
       })
       .catch(error => {
-        console.log(error);
         dispatch(deleteOrderFail(error));
       })
   }
