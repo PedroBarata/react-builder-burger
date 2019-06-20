@@ -8,8 +8,15 @@ import NavigationItem from './NavigationItem/NavigationItem';
 configure({adapter: new Adapter()});
 
 describe('<NavigationItems />', () => {
+    let wrapper;
+    beforeEach(() => {
+        wrapper = shallow(<NavigationItems />);
+    })
     it('should render <NavigationItems /> twice when user is unauthenticated', () => {
-        const wrapper = shallow(<NavigationItems />);
         expect(wrapper.find(NavigationItem)).toHaveLength(2);
+    });
+    it('should render <NavigationItems /> three times when user is authenticated', () => {
+        wrapper.setProps({isAuthenticated: true});
+        expect(wrapper.find(NavigationItem)).toHaveLength(3);
     });
 });
